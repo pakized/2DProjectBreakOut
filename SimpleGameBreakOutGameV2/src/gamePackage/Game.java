@@ -199,7 +199,7 @@ public class Game implements Runnable{
 		
 		
 		//bounce ball frame
-		if(ball.posY <= 0 + ball.radius) 
+		if(ball.posY <= 0 - ball.radius) 
 		{
 			ball.moveY = -ball.moveY;
 			ball.update();
@@ -215,7 +215,7 @@ public class Game implements Runnable{
 			ball.moveY = -ball.moveY;
 		}
 		
-		if(ball.posX <= 0 + ball.radius) 
+		if(ball.posX <= 0 - ball.radius) 
 		{
 			ball.moveX = -ball.moveX;
 			ball.update();

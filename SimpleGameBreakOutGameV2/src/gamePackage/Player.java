@@ -1,5 +1,6 @@
 package gamePackage;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 
@@ -26,6 +27,8 @@ public class Player extends Rectangle{
 	public void render(Graphics g) {
 		// TODO Auto-generated method stub
 		g.drawImage(gameAssets.Assets.racket, (int)xMove, (int)yMove, width, height,null);
+		g.setColor(Color.white);
+		g.drawString("points: " + this.points, 300, 340);
 	}
 	
 	public void update() {
