@@ -29,6 +29,8 @@ public class Game implements Runnable{
 	private KeyManager keyManager;
 	
 	ArrayList<Brick> bricks = new ArrayList<Brick>();
+	int sameStone = 0;
+	boolean isFilled = false;
 
 	
 	public Game(String title, int width, int height) 
@@ -92,18 +94,58 @@ public class Game implements Runnable{
 			{
 				if(counter == 0) 
 				{
-			        g.drawImage(Assets.redBrick, x, y,null);
-			        bricks.add(new Brick(10, x, y));
+			        if(!isFilled) 
+			        {
+			        	bricks.add(new Brick(10, x, y));
+		        		g.drawImage(Assets.redBrick, x, y,null);
+			        }
+			        
+			        else 
+			        {
+			        	for(int i = 0; i < bricks.size(); i++) 
+			        	{
+			        		if(bricks.get(i).posX == x && bricks.get(i).posY == y && bricks.get(i).isDestroyed == false) 
+			        		{
+			        			g.drawImage(Assets.redBrick, x, y,null);
+			        		}
+			        	}
+			        }
 				}
 				if(counter == 1) 
 				{
-					g.drawImage(Assets.blueBrick, x, y,null);
-			        bricks.add(new Brick(20, x, y));
+			        if(!isFilled) 
+			        {
+			        	bricks.add(new Brick(20, x, y));
+						g.drawImage(Assets.blueBrick, x, y,null);
+			        }
+			        else 
+			        {
+			        	for(int i = 0; i < bricks.size(); i++) 
+			        	{
+			        		if(bricks.get(i).posX == x && bricks.get(i).posY == y && bricks.get(i).isDestroyed == false) 
+			        		{
+								g.drawImage(Assets.blueBrick, x, y,null);
+			        		}
+			        	}
+			        }
 				}
 				if(counter == 2) 
 				{
-					g.drawImage(Assets.greenBrick, x, y,null);
-			        bricks.add(new Brick(30, x, y));
+			        if(!isFilled) 
+			        {
+			        	bricks.add(new Brick(30, x, y));
+						g.drawImage(Assets.greenBrick, x, y,null);
+			        }
+			        else 
+			        {
+			        	for(int i = 0; i < bricks.size(); i++) 
+			        	{
+			        		if(bricks.get(i).posX == x && bricks.get(i).posY == y && bricks.get(i).isDestroyed == false) 
+			        		{
+								g.drawImage(Assets.greenBrick, x, y,null);
+			        		}
+			        	}
+			        }
 				}
 				counter++;
 				if(counter == 3) 
@@ -112,6 +154,7 @@ public class Game implements Runnable{
 				}
 			}
 		}
+		isFilled = true;
 	}
 	
 	public void checkCollision() 
@@ -119,18 +162,20 @@ public class Game implements Runnable{
 		ball.update();
 		player.update();		
 		
-		//bounce from bricks
-		if(ball.getBrickAt(bricks) != null)
-		{
-			System.out.println(" BRICK point(s): " + player.points);
-
-			if(ball.getRect().intersects(ball.getBrickAt(bricks).getRect()))
+		
+		//bounce from bricks		
+    	for(int i = 0; i< bricks.size(); i++) 
+    	{
+			if(ball.getRect().intersects(bricks.get(i).getRect()) && bricks.get(i).isDestroyed == false)
 			{	
-				player.points = player.points+1;
+				bricks.get(i).isDestroyed = true;
+				player.points = player.points + bricks.get(i).points;
 				System.out.println(" BRICK point(s): " + player.points);
 				ball.moveY = -ball.moveY;
+				ball.moveX = -ball.moveX;
 			}
-		}
+    	}
+		
 		
 		//bounce from player
 		if(player.getRect().intersects(ball.getRect()))
@@ -165,6 +210,8 @@ public class Game implements Runnable{
 			//game lost
 			System.out.println("You have achieved " + player.points + " points");
 			player.points = 0;
+			bricks = new ArrayList<Brick>();
+			isFilled = false;
 			ball.moveY = -ball.moveY;
 		}
 		

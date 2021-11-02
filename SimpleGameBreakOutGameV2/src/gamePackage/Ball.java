@@ -38,6 +38,7 @@ public class Ball extends Rectangle{
     Rectangle getRect() { 
         return new Rectangle((int)posX, (int)posY, radius, radius);
     }
+    
     public Brick getBrickAt(ArrayList<Brick> bricks)
     {
     	for(int i = 0; i< bricks.size(); i++) 
