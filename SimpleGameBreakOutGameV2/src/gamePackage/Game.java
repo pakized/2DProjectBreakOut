@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.image.BufferStrategy;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import com.sun.media.jfxmedia.events.PlayerStateEvent.PlayerState;
 
@@ -157,8 +158,25 @@ public class Game implements Runnable{
 		isFilled = true;
 	}
 	
+	private void jumpopp(Ball ball) 
+	{
+				ball.moveY = -ball.moveY;
+				ball.moveX = -ball.moveX;		
+	}
+	private void changeHorizontal(Ball ball) 
+	{
+		ball.moveX = -ball.moveX;		
+	}	
+	private void changeVertical(Ball ball) 
+	{
+		ball.moveY = -ball.moveY;
+	}
+	
 	public void checkCollision() 
 	{
+		Random random = new Random();
+		int number = random.nextInt(3);
+		
 		ball.update();
 		player.update();		
 		
@@ -170,19 +188,26 @@ public class Game implements Runnable{
 			{	
 				bricks.get(i).isDestroyed = true;
 				player.points = player.points + bricks.get(i).points;
-				System.out.println(" BRICK point(s): " + player.points);
-				ball.moveY = -ball.moveY;
-				ball.moveX = -ball.moveX;
+				System.out.println(" BRICK point(s): + " + bricks.get(i).points + "!");
+				if(number == 0 || number == 2) 
+				{
+					jumpopp(ball);	
+				}
+
+				if(number == 1) 
+				{
+					changeVertical(ball);	
+				}			
 			}
     	}
 		
-		
+
 		//bounce from player
 		if(player.getRect().intersects(ball.getRect()))
 		{	
 			player.points = player.points+1;
 			System.out.println("point(s): " + player.points);
-			ball.moveY = -ball.moveY;
+			changeVertical(ball);
 		}
 		
 		//stop at edge
