@@ -22,7 +22,7 @@ public class Game implements Runnable{
 	private boolean running = false;
 	Player player = new Player(300,300,80,15,this);
 	float speed = 1.2f;
-	Ball ball = new Ball(300,250, 15 ,speed,speed);
+	Ball ball = new Ball(300,250, 10 ,speed,speed);
 	
 	private BufferStrategy bs;
 	private Graphics g;
@@ -68,16 +68,7 @@ public class Game implements Runnable{
 		g = bs.getDrawGraphics();
 		//clear
 		g.clearRect(0,0, width, heigth);
-		
-		//Draw here 
-	//evertything after this line = red
 
-	/*	g.setColor(Color.red);
-		g.fillRect(300, 50, 50, 70);
-		g.setColor(Color.blue);
-		g.fillRect(300, 200, 50, 70);*/
-		
-	//	g.drawImage(Assets.redBrick, 0,0 ,null);
 		setWorld();
 		player.render(g);
 		ball.draw(g);
@@ -175,7 +166,7 @@ public class Game implements Runnable{
 	public void checkCollision() 
 	{
 		Random random = new Random();
-		int number = random.nextInt(3);
+		int number = random.nextInt(2);
 		
 		ball.update();
 		player.update();		
@@ -189,7 +180,7 @@ public class Game implements Runnable{
 				bricks.get(i).isDestroyed = true;
 				player.points = player.points + bricks.get(i).points;
 				System.out.println(" BRICK point(s): + " + bricks.get(i).points + "!");
-				if(number == 0 || number == 2) 
+				if(number == 0) 
 				{
 					jumpopp(ball);	
 				}
@@ -295,7 +286,7 @@ public class Game implements Runnable{
 	{
 		return keyManager;
 	}
-	
+
 	public synchronized void start() 
 	{
 		if(running) {return;}
@@ -303,7 +294,7 @@ public class Game implements Runnable{
 		thread = new Thread(this);
 		thread.start();
 	}
-	
+		
 	public synchronized void stop() 
 	{
 		if(!running) {return;}
@@ -315,4 +306,5 @@ public class Game implements Runnable{
 			e.printStackTrace();
 		}
 	}
+
 }
